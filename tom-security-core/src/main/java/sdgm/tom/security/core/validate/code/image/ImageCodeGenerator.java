@@ -1,9 +1,11 @@
-package sdgm.tom.security.core.validate.code;
+package sdgm.tom.security.core.validate.code.image;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.context.request.ServletWebRequest;
 import sdgm.tom.security.core.properties.SecurityProperties;
+import sdgm.tom.security.core.validate.code.ValidateCodeGenerator;
+import sdgm.tom.security.core.validate.code.image.ImageCode;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
@@ -29,14 +31,14 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
     private String[] fontNames = {"宋体","华文楷体", "黑体", "微软雅黑", "楷体_GB2312"}; //字体名称
 
     @Override
-    public ImageCode generate(HttpServletRequest request) {
-        int width = ServletRequestUtils.getIntParameter(request,"width",securityProperties.getCode().getImage().getWidth());   //图片宽度
-        int height = ServletRequestUtils.getIntParameter(request,"height",securityProperties.getCode().getImage().getHeight());    //图片高度
+    public ImageCode generate(ServletWebRequest request) {
+        int width = ServletRequestUtils.getIntParameter(request.getRequest(),"width",securityProperties.getCode().getImage().getWidth());   //图片宽度
+        int height = ServletRequestUtils.getIntParameter(request.getRequest(),"height",securityProperties.getCode().getImage().getHeight());    //图片高度
 
         BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
         StringBuilder sb = new StringBuilder();
-        int length=ServletRequestUtils.getIntParameter(request,"length",securityProperties.getCode().getImage().getLength());
+        int length=ServletRequestUtils.getIntParameter(request.getRequest(),"length",securityProperties.getCode().getImage().getLength());
         for (int i = 0; i < length; i++) {
             int index = rm.nextInt(codes.length());
             String s= codes.charAt(index)+"";

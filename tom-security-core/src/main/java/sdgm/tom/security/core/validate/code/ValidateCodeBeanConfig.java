@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sdgm.tom.security.core.properties.SecurityProperties;
+import sdgm.tom.security.core.validate.code.image.ImageCodeGenerator;
+import sdgm.tom.security.core.validate.code.sms.DefaultSmsCodeSender;
+import sdgm.tom.security.core.validate.code.sms.SmsCodeSender;
 
 @Configuration
 public class ValidateCodeBeanConfig {
@@ -26,5 +29,12 @@ public class ValidateCodeBeanConfig {
         ImageCodeGenerator codeGenerator=new ImageCodeGenerator();
         codeGenerator.setSecurityProperties(securityProperties);
         return codeGenerator;
+    }
+
+    //此种方式和以上一样
+    @Bean
+    @ConditionalOnMissingBean(SmsCodeSender.class)
+    public SmsCodeSender smsCodeSender(){
+        return new DefaultSmsCodeSender();
     }
 }

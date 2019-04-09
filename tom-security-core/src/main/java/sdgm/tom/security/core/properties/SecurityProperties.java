@@ -1,6 +1,7 @@
 package sdgm.tom.security.core.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import sdgm.tom.security.core.validate.code.ValidateCode;
 
 @ConfigurationProperties(prefix = "tom.security")
 public class SecurityProperties {

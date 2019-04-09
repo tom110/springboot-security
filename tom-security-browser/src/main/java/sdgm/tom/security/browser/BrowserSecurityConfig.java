@@ -42,7 +42,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl tokenRepository=new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
-        tokenRepository.setCreateTableOnStartup(true);
+//        tokenRepository.setCreateTableOnStartup(true);//初始化记住我对应的表
         return tokenRepository;
     }
 
@@ -60,7 +60,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
         ValidateCodeFilter validateCodeFilter=new ValidateCodeFilter();
         validateCodeFilter.setAuthenticationFailureHandler(tomAuthenticationFailHandler);
-        //validateCodeFilter.setSecurityProperties(securityProperties); //初始化记住我对应的表
+        validateCodeFilter.setSecurityProperties(securityProperties);
         validateCodeFilter.afterPropertiesSet();
 
         http
@@ -73,15 +73,15 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                     .failureHandler(tomAuthenticationFailHandler) //登录失败处理器
                 .and()
                     .rememberMe()
-                    .tokenRepository(persistentTokenRepository())
-                    .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
-                    .userDetailsService(userDetailsService)
+                        .tokenRepository(persistentTokenRepository())
+                        .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
+                        .userDetailsService(userDetailsService)
 
 //        http.httpBasic() //弹框登录
                 .and()
                 .authorizeRequests()
 //                .antMatchers("/tom-login.html").permitAll() //匹配器
-                .antMatchers("/authentication/require",securityProperties.getBrowser().getLoginPage(),"/code/image").permitAll()
+                .antMatchers("/authentication/require",securityProperties.getBrowser().getLoginPage(),"/code/*").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().csrf().disable();//跨站伪装防护关闭
