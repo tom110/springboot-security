@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import sdgm.tom.security.browser.support.SimpleResponse;
+import sdgm.tom.security.core.properties.SecurityConstants;
 import sdgm.tom.security.core.properties.SecurityProperties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,7 @@ public class BrowserSecurityController {
      * 如果请求hmtl文件，且需要认证，跳转到用户定义的登录hmtl页
      * 如果没有配置用户登录页面，则跳转到标准登录页
      * */
-    @RequestMapping("/authentication/require")
+    @RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

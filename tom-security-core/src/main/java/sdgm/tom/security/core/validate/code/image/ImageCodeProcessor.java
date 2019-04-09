@@ -6,7 +6,7 @@ import sdgm.tom.security.core.validate.code.Impl.AbstractValidateCodeProcessor;
 
 import javax.imageio.ImageIO;
 
-@Component("imageCodeProcessor")
+@Component("imageValidateCodeProcessor")
 public class ImageCodeProcessor extends AbstractValidateCodeProcessor<ImageCode>{
 
     @Override

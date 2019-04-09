@@ -7,7 +7,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import sdgm.tom.security.core.validate.code.Impl.AbstractValidateCodeProcessor;
 import sdgm.tom.security.core.validate.code.ValidateCode;
 
-@Component("smsCodeProcessor")
+@Component("smsValidateCodeProcessor")
 public class SmsCodeProcessor extends AbstractValidateCodeProcessor<ValidateCode> {
 
     @Autowired

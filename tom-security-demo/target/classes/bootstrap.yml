@@ -1,8 +1,16 @@
 spring:
+#  datasource:
+#    url: jdbc:mysql://192.168.50.254:3306/security_test?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+#    username: security
+#    password: security
+  h2:
+    console:
+      enabled: true
   datasource:
-    url: jdbc:mysql://192.168.50.254:3306/security_test?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
-    username: security
-    password: security
+      url: jdbc:h2:mem:testdb
+      driverClassName: org.h2.Driver
+      username: sa
+      password:
 
 # 关闭session
   session:

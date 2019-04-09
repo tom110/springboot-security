@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
+import sdgm.tom.security.core.properties.SecurityConstants;
 import sdgm.tom.security.core.validate.code.image.ImageCode;
 import sdgm.tom.security.core.validate.code.sms.SmsCodeSender;
 
@@ -25,9 +26,9 @@ public class ValidateCodeController {
     @Autowired
     private Map<String,ValidateCodeProcessor> validateCodeProcessors;
 
-    @GetMapping("/code/{type}")
+    @GetMapping(SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/{type}")
     public void createSmsCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type) throws Exception {
-        validateCodeProcessors.get(type+"CodeProcessor").create(new ServletWebRequest(request,response));
+        validateCodeProcessors.get(type+"ValidateCodeProcessor").create(new ServletWebRequest(request,response));
 
     }
 }
