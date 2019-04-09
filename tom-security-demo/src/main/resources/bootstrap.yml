@@ -8,7 +8,19 @@ spring:
   session:
     store-type: none
 
-# 关闭默认权限
+# spring-security默认权限
 security:
   basic:
-    enabled: false
+    enabled: true
+
+
+tom:
+  security:
+    browser:
+      loginType: JSON # 登录成功或失败是返回json还是跳转
+#      loginPage: /demo-signIn.html # 配置用户登录页，如果没有配置使用标准默认登录页
+    code:
+      image:
+        length: 6
+        width: 200
+        url: /user/* # 验证码的接口可配置
