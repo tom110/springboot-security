@@ -7,6 +7,18 @@ import sdgm.tom.security.core.validate.code.ValidateCode;
 public class SecurityProperties {
 
     private ValidateCodeProperties code = new ValidateCodeProperties();
+    /**
+     * 社交登录相关配置
+     */
+    private SocialProperties social = new SocialProperties();
+
+    public SocialProperties getSocial() {
+        return social;
+    }
+
+    public void setSocial(SocialProperties social) {
+        this.social = social;
+    }
 
     public ValidateCodeProperties getCode() {
         return code;

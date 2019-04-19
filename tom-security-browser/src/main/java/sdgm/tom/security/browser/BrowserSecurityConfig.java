@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 import sdgm.tom.security.browser.authentication.TomAuthenticationFailHandler;
 import sdgm.tom.security.browser.authentication.TomAuthenticationSuccessHandler;
 import sdgm.tom.security.core.authentication.AbstractChannelSecurityConfig;
@@ -51,7 +52,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl tokenRepository=new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
-        tokenRepository.setCreateTableOnStartup(true);//初始化记住我对应的表
+//        tokenRepository.setCreateTableOnStartup(true);//初始化记住我对应的表
         return tokenRepository;
     }
 
@@ -66,6 +67,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+    @Autowired
+    private SpringSocialConfigurer tomSocialSecurityConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -110,6 +114,8 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
         http.apply(validateCodeSecurityConfig)
                 .and()
                 .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                .apply(tomSocialSecurityConfig)
                 .and()
                 .rememberMe()
                 .tokenRepository(persistentTokenRepository())
