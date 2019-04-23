@@ -5,7 +5,7 @@ public class SmsCodeProperties {
     private int length=6;
     private int expireIn=60;
 
-    private String url="/user/*";
+    private String url;
 
     public String getUrl() {
         return url;

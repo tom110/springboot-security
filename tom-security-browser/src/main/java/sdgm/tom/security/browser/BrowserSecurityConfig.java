@@ -123,7 +123,6 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                 .userDetailsService(userDetailsService)
                 .and()
 
-
                 .authorizeRequests()
                 .antMatchers(
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
@@ -134,7 +133,8 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                         "/swagger-resources/configuration/ui",//用来获取支持的动作
                         "/swagger-resources",//用来获取api-docs的URI
                         "/swagger-resources/configuration/security",//安全选项
-                        "/swagger-ui.html").permitAll()
+                        "/swagger-ui.html",
+                        securityProperties.getBrowser().getSignUpPage(),"/user/regist").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

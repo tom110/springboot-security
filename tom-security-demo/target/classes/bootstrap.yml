@@ -30,11 +30,12 @@ tom:
     browser:
       loginType: JSON # 登录成功或失败是返回json还是跳转
 #      loginPage: /demo-signIn.html # 配置用户登录页，如果没有配置使用标准默认登录页
+      signUpPage: /demo-signUp.html
     code:
       image:
         length: 6
         width: 200
-        url: /user/* # 验证码的接口可配置
+#        url: /user/* # 验证码的接口可配置
     social:
       qq:
         app-id: 101565505

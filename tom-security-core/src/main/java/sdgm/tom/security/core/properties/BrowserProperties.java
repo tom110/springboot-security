@@ -4,6 +4,8 @@ public class BrowserProperties {
     //没有配置用户登录页，使用默认登录页
     private String loginPage="/tom-login.html";
 
+    private String signUpPage="/tom-signUp.html";
+
     private LoginType loginType=LoginType.JSON;
 
     private int rememberMeSeconds=3600;
@@ -30,5 +32,13 @@ public class BrowserProperties {
 
     public void setRememberMeSeconds(int rememberMeSeconds) {
         this.rememberMeSeconds = rememberMeSeconds;
+    }
+
+    public String getSignUpPage() {
+        return signUpPage;
+    }
+
+    public void setSignUpPage(String signUpPage) {
+        this.signUpPage = signUpPage;
     }
 }
