@@ -1,4 +1,4 @@
-package sdgm.tom.security.browser.authentication;
+package sdgm.tom.security.app.authentication;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,10 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
-import sdgm.tom.security.core.support.ObjectMapperCreater;
-import sdgm.tom.security.core.support.SimpleResponse;
 import sdgm.tom.security.core.properties.LoginType;
 import sdgm.tom.security.core.properties.SecurityProperties;
+import sdgm.tom.security.core.support.ObjectMapperCreater;
+import sdgm.tom.security.core.support.SimpleResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

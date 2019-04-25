@@ -19,6 +19,11 @@
             <artifactId>tom-security-browser</artifactId>
             <version>${sdgm.tom.security.version}</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>sdgm.tom.security</groupId>-->
+            <!--<artifactId>tom-security-app</artifactId>-->
+            <!--<version>${sdgm.tom.security.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

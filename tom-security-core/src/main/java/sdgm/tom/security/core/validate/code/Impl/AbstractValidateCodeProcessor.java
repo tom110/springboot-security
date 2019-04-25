@@ -44,7 +44,8 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
 
     protected void save(ServletWebRequest request, C validateCode) throws Exception{
-        sessionStrategy.setAttribute(request,getSessionKey(request),validateCode);
+        ValidateCode code=new ValidateCode(validateCode.getCode(),validateCode.getExpireTime());
+        sessionStrategy.setAttribute(request,getSessionKey(request),code);
     }
 
     protected abstract void send(ServletWebRequest request,C validateCode) throws Exception;

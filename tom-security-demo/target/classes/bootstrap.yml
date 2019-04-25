@@ -11,10 +11,16 @@ spring:
 #      driverClassName: org.h2.Driver
 #      username: sa
 #      password:
+  redis:
+    host: 192.168.50.254
+    port: 6379
+
   session:
-    store-type: none
+    store-type: REDIS
 server:
   port: 80
+  session:
+    timeout: 600 #设置session超时
 # 关闭session
 
 
@@ -31,6 +37,10 @@ tom:
       loginType: JSON # 登录成功或失败是返回json还是跳转
 #      loginPage: /demo-signIn.html # 配置用户登录页，如果没有配置使用标准默认登录页
       signUpPage: /demo-signUp.html
+      session:
+        maximumSessions: 1
+        maxSessionsPreventsLogin: true #用户登录后，同名用户不能登录
+      signOutUrl: /demo-logout.html
     code:
       image:
         length: 6

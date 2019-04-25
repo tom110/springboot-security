@@ -5,7 +5,7 @@ import sdgm.tom.security.core.validate.code.ValidateCode;
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 
-public class ImageCode extends ValidateCode {
+public class ImageCode extends ValidateCode{
     private BufferedImage image;
 
     public ImageCode(BufferedImage image, String code, Integer expireInt) {

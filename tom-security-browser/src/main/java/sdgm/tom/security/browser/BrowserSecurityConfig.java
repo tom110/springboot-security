@@ -11,11 +11,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 import sdgm.tom.security.browser.authentication.TomAuthenticationFailHandler;
 import sdgm.tom.security.browser.authentication.TomAuthenticationSuccessHandler;
+import sdgm.tom.security.browser.session.TomExpiredSessionStrategy;
+import sdgm.tom.security.browser.session.TomInvalidSessionStrategy;
 import sdgm.tom.security.core.authentication.AbstractChannelSecurityConfig;
 import sdgm.tom.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import sdgm.tom.security.core.properties.SecurityConstants;
@@ -71,6 +76,15 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private SpringSocialConfigurer tomSocialSecurityConfig;
 
+    @Autowired
+    private InvalidSessionStrategy invalidSessionStrategy;
+
+    @Autowired
+    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -113,16 +127,37 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
         http.apply(validateCodeSecurityConfig)
                 .and()
-                .apply(smsCodeAuthenticationSecurityConfig)
+                    .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
-                .apply(tomSocialSecurityConfig)
+                    .apply(tomSocialSecurityConfig)
                 .and()
-                .rememberMe()
-                .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
-                .userDetailsService(userDetailsService)
+                    .rememberMe()
+                    .tokenRepository(persistentTokenRepository())
+                    .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
+                    .userDetailsService(userDetailsService)
                 .and()
-
+                    .sessionManagement()
+                    .invalidSessionStrategy(invalidSessionStrategy)
+                    .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+                    .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+                    .expiredSessionStrategy(sessionInformationExpiredStrategy)
+//                    .sessionManagement()
+//                    .invalidSessionStrategy(invalidSessionStrategy)
+////                    .invalidSessionUrl(securityProperties.getBrowser().getSession().getSessionInvalidUrl()) //session失效提示页面
+//                    // 设置最大session数量
+//                    .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+//                    //当session数量达到最大时，阻止后来的用户登录,没有的话踢掉前登录用户
+//                    .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+//                    // session超时处理策略
+//                    .expiredSessionStrategy(sessionInformationExpiredStrategy)
+                .and()
+                .and()
+                    .logout()
+                    .logoutUrl("/signOut")
+                    .logoutSuccessHandler(logoutSuccessHandler) //handler和下面的url互斥
+//                    .logoutSuccessUrl("/tom-logout.html")
+                    .deleteCookies("JSESSIONID")
+                .and()
                 .authorizeRequests()
                 .antMatchers(
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
@@ -134,7 +169,10 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                         "/swagger-resources",//用来获取api-docs的URI
                         "/swagger-resources/configuration/security",//安全选项
                         "/swagger-ui.html",
-                        securityProperties.getBrowser().getSignUpPage(),"/user/regist").permitAll()
+                        securityProperties.getBrowser().getSignUpPage(),
+                        "/user/regist",
+                        SecurityConstants.DEFAULT_SESSION_INVALID_URL,
+                        securityProperties.getBrowser().getSignOutUrl()).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

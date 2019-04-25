@@ -1,4 +1,4 @@
-package sdgm.tom.security.browser.support;
+package sdgm.tom.security.core.support;
 
 public class SimpleResponse {
 
