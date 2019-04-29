@@ -1,4 +1,4 @@
-package sdgm.tom.security.browser;
+package sdgm.tom.security.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +16,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MyUserDetailsService implements UserDetailsService,SocialUserDetailsService {
-
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -37,8 +35,12 @@ public class MyUserDetailsService implements UserDetailsService,SocialUserDetail
     private SocialUserDetails buildUser(String userId) {
         String password=passwordEncoder.encode("123456");
         logger.info("数据里存的密码是："+password);
-        return new SocialUser(userId,password,
+//        return new SocialUser(userId,password,
+//                true,true,true,true,
+//                AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        //oauth2部分
+                return new SocialUser(userId,password,
                 true,true,true,true,
-                AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+                AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
     }
 }

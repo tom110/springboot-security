@@ -29,7 +29,10 @@ server:
 security:
   basic:
     enabled: true
-
+  oauth2:
+    client:
+      client-id: tom
+      client-secret: tomsecre
 
 tom:
   security:
