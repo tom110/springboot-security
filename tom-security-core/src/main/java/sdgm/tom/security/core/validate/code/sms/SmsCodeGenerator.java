@@ -10,7 +10,7 @@ import sdgm.tom.security.core.validate.code.ValidateCodeGenerator;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Component("smsCodeGenerator")
+@Component("smsValidateCodeGenerator")
 public class SmsCodeGenerator implements ValidateCodeGenerator {
 
     @Autowired
