@@ -1,26 +1,35 @@
 package sdgm.tom.security.web.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
+import sdgm.tom.security.core.properties.SecurityProperties;
 import sdgm.tom.security.dto.User;
 import sdgm.tom.security.exception.UserNotExistException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private SecurityProperties securityProperties;
 
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
@@ -33,8 +42,22 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public Object getCurrentUser(){
-        return SecurityContextHolder.getContext().getAuthentication();
+//    public Object getCurrentUser(){
+//        return SecurityContextHolder.getContext().getAuthentication();
+//    }
+    public Object getCurrentUser(Authentication user, HttpServletRequest request) throws UnsupportedEncodingException {
+
+        String token = StringUtils.substringAfter(request.getHeader("Authorization"), "bearer ");
+
+        Claims claims = Jwts.parser().setSigningKey(
+                securityProperties.getOauth2().getJwtSigningKey().getBytes("UTF-8"))
+                .parseClaimsJws(token).getBody();
+        // 拿到自定义增强的参数
+        String company = (String) claims.get("company");
+
+        System.out.println(company);
+
+        return user;
     }
 
 //    @RequestMapping(value = "/user",method = RequestMethod.GET)

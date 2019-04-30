@@ -29,10 +29,10 @@ server:
 security:
   basic:
     enabled: true
-  oauth2:
-    client:
-      client-id: tom
-      client-secret: tomsecre
+#  oauth2:
+#    client:
+#      client-id: tom
+#      client-secret: tomsecre
 
 tom:
   security:
@@ -55,3 +55,15 @@ tom:
         appSecret: 3d0d6478655299943029a494bd71cfd3
         providerId: qq
       filterProcessesUrl: /auth
+
+    oauth2:
+          # 对多个应用进行配置
+      clients[0]:
+        clientId: tom0
+        clientSecret: tomsecret0
+        accessTokenValidateSeconds: 3600
+      clients[1]:
+        clientId: tom1
+        clientSecret: tomsecret1
+        accessTokenValidateSeconds: 7200
+      storeType: jwt
