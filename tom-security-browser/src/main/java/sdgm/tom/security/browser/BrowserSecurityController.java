@@ -12,11 +12,10 @@ import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
+import sdgm.tom.security.core.dto.User;
+import sdgm.tom.security.core.properties.LoginType;
 import sdgm.tom.security.core.support.SimpleResponse;
 import sdgm.tom.security.browser.support.SocialUserInfo;
 import sdgm.tom.security.core.properties.SecurityConstants;
@@ -57,7 +56,7 @@ public class BrowserSecurityController {
         if (savedRequest != null) {
             String targetUrl = savedRequest.getRedirectUrl();
             logger.info("引发跳转的请求是：" + targetUrl);
-            if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {
+            if (StringUtils.endsWithIgnoreCase(targetUrl, ".html") || securityProperties.getBrowser().getLoginType()== LoginType.REDIRECT) {
                 redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
             }
         }
@@ -76,6 +75,14 @@ public class BrowserSecurityController {
         userInfo.setNickname(connection.getDisplayName());
         userInfo.setHeading(connection.getImageUrl());
         return userInfo;
+    }
+
+    @PostMapping("/user/regist")
+    public void regist(User user, HttpServletRequest request){
+        //不管是注册用户还是绑定用户，都会拿到一个用户唯一标识。
+        String userId = user.getUsername();
+        // 此处需要保存user到user表，完成成册，如果是绑定则不用保存，这里一般要覆盖掉重新写
+        providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
     }
 
     @GetMapping("/session/invalid")

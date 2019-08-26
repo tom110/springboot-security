@@ -11,6 +11,8 @@ public class BrowserProperties {
 
     private String signUpPage="/tom-signUp.html";
 
+    private String signUpRegistForm="/user/regist";
+
     private LoginType loginType=LoginType.JSON;
 
     private int rememberMeSeconds=3600;
@@ -66,5 +68,14 @@ public class BrowserProperties {
 
     public void setSession(SessionProperties session) {
         this.session = session;
+    }
+
+
+    public String getSignUpRegistForm() {
+        return signUpRegistForm;
+    }
+
+    public void setSignUpRegistForm(String signUpRegistForm) {
+        this.signUpRegistForm = signUpRegistForm;
     }
 }

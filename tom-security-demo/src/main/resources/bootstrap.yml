@@ -37,7 +37,7 @@ security:
 tom:
   security:
     browser:
-      loginType: JSON # 登录成功或失败是返回json还是跳转
+      loginType: REDIRECT # 登录成功或失败是返回json还是跳转
 #      loginPage: /demo-signIn.html # 配置用户登录页，如果没有配置使用标准默认登录页
       signUpPage: /demo-signUp.html
       session:

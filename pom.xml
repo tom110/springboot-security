@@ -12,6 +12,7 @@
         <module>tom-security-browser</module>
         <module>tom-security-app</module>
         <module>tom-security-demo</module>
+        <module>tom-security-authorize</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -37,6 +38,17 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>rdc-releases</id>
+            <url>https://repo.rdc.aliyun.com/repository/75186-release-i0iA6c/</url>
+        </repository>
+        <snapshotRepository>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/75186-snapshot-VNJqTb/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <build>
         <plugins>

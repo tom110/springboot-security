@@ -23,6 +23,7 @@ import sdgm.tom.security.browser.session.TomExpiredSessionStrategy;
 import sdgm.tom.security.browser.session.TomInvalidSessionStrategy;
 import sdgm.tom.security.core.authentication.AbstractChannelSecurityConfig;
 import sdgm.tom.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import sdgm.tom.security.core.authorize.AuthorizeConfigManager;
 import sdgm.tom.security.core.properties.SecurityConstants;
 import sdgm.tom.security.core.properties.SecurityProperties;
 import sdgm.tom.security.core.validate.code.ValidateCodeFilter;
@@ -79,6 +80,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
+
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -154,24 +158,10 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig {
                     .deleteCookies("JSESSIONID")
                 .and()
                 .authorizeRequests()
-                .antMatchers(
-                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-                        SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-                        securityProperties.getBrowser().getLoginPage(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
-                        "/v2/api-docs",//swagger api json
-                        "/swagger-resources/configuration/ui",//用来获取支持的动作
-                        "/swagger-resources",//用来获取api-docs的URI
-                        "/swagger-resources/configuration/security",//安全选项
-                        "/swagger-ui.html",
-                        securityProperties.getBrowser().getSignUpPage(),
-                        "/user/regist",
-                        SecurityConstants.DEFAULT_SESSION_INVALID_URL,
-                        securityProperties.getBrowser().getSignOutUrl()).permitAll()
-                .anyRequest()
-                .authenticated()
                 .and()
                 .csrf().disable();
+
+        authorizeConfigManager.config(http.authorizeRequests());
     }
 
 }

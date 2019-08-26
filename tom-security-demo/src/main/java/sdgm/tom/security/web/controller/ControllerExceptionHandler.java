@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import sdgm.tom.security.exception.UserNotExistException;
-import sun.plugin2.message.Message;
 
 import java.util.HashMap;
 import java.util.Map;

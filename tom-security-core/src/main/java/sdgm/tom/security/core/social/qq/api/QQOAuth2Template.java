@@ -30,7 +30,7 @@ public class QQOAuth2Template extends OAuth2Template {
     @Override
     protected AccessGrant postForAccessGrant(String accessTokenUrl, MultiValueMap<String, String> parameters) {
         // 得到获取accessToken的响应字符串
-        String responseStr = getRestTemplate().postForObject(accessTokenUrl, parameters, String.class);
+        String responseStr = getRestTemplate().postForObject(accessTokenUrl, parameters,String.class);
 
         logger.info("获取accessToke的响应："+responseStr);
 
